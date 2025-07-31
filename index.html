@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input type="text" placeholder="enter city name" spellcheck="false" />
+        <button><img src="img/search.png" alt="" /></button>
+      </div>
+      <div class="error"><p>Invalid city name</p></div>
+      <div class="weather">
+        <img src="img/rain.png" class="weather-icon" />
+        <h1 class="temp">22°c</h1>
+        <h2 class="city">New York</h2>
+        <div class="details">
+          <div class="col">
+            <img src="img/humidity.png" alt="" />
+            <div>
+              <p class="humidity">50%</p>
+              <p>Humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img src="img/wind.png" alt="" />
+            <div>
+              <p class="wind">15 km/h</p>
+              <p>Wind Speed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let previousCity = "";
+
+      const apiKey = "69fba59fae4594b3c3344df61e3751d1";
+      const apiUrl =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+      const searchBox = document.querySelector(".search input");
+      const searchBtn = document.querySelector(".search button");
+      const weatherIcon = document.querySelector(".weather-icon");
+
+      async function checkWeather(city) {
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+
+        if (response.status == 404) {
+          document.querySelector(".error").style.display = "block";
+          document.querySelector(".weather").style.display = "none";
+        } else {
+          var data = await response.json();
+
+          document.querySelector(".city").innerHTML = data.name;
+          document.querySelector(".temp").innerHTML =
+            Math.round(data.main.temp) + "°c";
+          document.querySelector(".humidity").innerHTML =
+            data.main.humidity + "%";
+          document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+
+          if (data.weather[0].main == "Clouds") {
+            weatherIcon.src = "img/clouds.png";
+          } else if (data.weather[0].main == "Clear") {
+            weatherIcon.src = "img/clear.png";
+          } else if (data.weather[0].main == "Rain") {
+            weatherIcon.src = "img/rain.png";
+          } else if (data.weather[0].main == "Drizzle") {
+            weatherIcon.src = "img/clear.png";
+          } else if (data.weather[0].main == "Mist") {
+            weatherIcon.src = "img/mist.png";
+          }
+
+          document.querySelector(".weather").style.display = "block";
+          document.querySelector(".error").style.display = "none";
+
+          if (city !== previousCity) {
+            setRandomColor();
+            previousCity = city;
+          }
+        }
+      }
+
+      function setRandomColor() {
+        function getRandomHue() {
+          return Math.floor(Math.random() * 360);
+        }
+
+        function getAnalogousHue1(hue) {
+          return (hue + 30) % 360;
+        }
+
+        function getAnalogousHue2(hue) {
+          return (hue + 60) % 360;
+        }
+
+        function getMonochromeColor(hue) {
+          const lightness = Math.floor(Math.random() * 60) + 20;
+          return `hsl(${hue}, 100%, ${lightness}%)`;
+        }
+
+        const weatherCard = document.querySelector(".card");
+
+        const baseHue = getRandomHue();
+        const analogousHue1 = getAnalogousHue1(baseHue);
+        const analogousHue2 = getAnalogousHue2(baseHue);
+
+        const color1 = getMonochromeColor(baseHue);
+        const color2 = getMonochromeColor(analogousHue1);
+        const color3 = getMonochromeColor(analogousHue2);
+
+        weatherCard.style.background = `linear-gradient(135deg, ${color1}, ${color2}, ${color3})`;
+      }
+
+      searchBtn.addEventListener("click", function () {
+        checkWeather(searchBox.value);
+      });
+
+      searchBox.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+          checkWeather(searchBox.value);
+          event.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>
