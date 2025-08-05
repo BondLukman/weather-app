@@ -51,11 +51,7 @@ body {
 }
 
 .search button img {
-  width: 60%;
-  height: 60%;
-  object-fit: contain;
-  display: block;
-  margin: auto;
+  width: 16px;
 }
 
 .weather-icon {
@@ -115,25 +111,34 @@ body {
     padding: 30px 20px;
   }
 
+  .search {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
   .search input {
-    padding: 10px 15px;
+    width: 100%;
+    margin-right: 0;
     font-size: 16px;
     height: 50px;
-    margin-right: 10px;
-    width: 30%;
+    padding: 10px 20px;
   }
 
   .search button {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%; /* make button round again */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: auto;
   }
 
   .search button img {
-    width: 60%;
-    height: 60%;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
-    display: block;
-    margin: auto;
   }
 
   .weather-icon {
