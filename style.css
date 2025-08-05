@@ -51,7 +51,11 @@ body {
 }
 
 .search button img {
-  width: 16px;
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+  display: block;
+  margin: auto;
 }
 
 .weather-icon {
@@ -116,6 +120,7 @@ body {
     font-size: 16px;
     height: 50px;
     margin-right: 10px;
+    width: 30%;
   }
 
   .search button {
@@ -124,7 +129,11 @@ body {
   }
 
   .search button img {
-    width: 14px;
+    width: 60%;
+    height: 60%;
+    object-fit: contain;
+    display: block;
+    margin: auto;
   }
 
   .weather-icon {
